@@ -29,6 +29,7 @@ class RazorpayController extends Controller
         $input = $request->all();
 
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        
 
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
 

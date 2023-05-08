@@ -44,6 +44,16 @@
                             <div class="card-body text-center">
                                 <form id="registrationForm"action="/register" method="POST">
                                     <div class="form-outline  text-justify">
+                                        <label for="name" class="form-label">Title:</label>
+                                        {{-- <input type="text" id="name" name="title" class="form-control"
+                                            required> --}}
+                                            <select class="form-outline  text-justify">>
+                                                <option>Dr.</option>
+                                                <option>Mr.</option>
+                                                <option>Mrs.</option>
+                                                <option>Ms.</option>
+                                    </div>
+                                    <div class="form-outline  text-justify">
                                         <label for="name" class="form-label">Name:</label>
                                         <input type="text" id="name" name="name" class="form-control"
                                             required>
@@ -78,20 +88,20 @@
                                         <input type="text" id="pincode" name="pincode"class="form-control"
                                             required>
                                     </div>
-                                    <div class="form-outline  text-justify">
+                                    <div class="form-outline text-justify">
                                         <label for="userType" class="form-label">User Type:</label>
-                                        <div class="col">
-                                            <div class="form-check">
+                                        <div class="row g-2">
+                                            <div class="form-check ml-4">
                                                 <input type="radio" class="form-check-input" id="radio1"
                                                     name="userType" value="student" checked>
                                                 <label class="form-check-label" for="radio1">Student - 1000</label>
                                             </div>
-                                            <div class="form-check">
+                                            <div class="form-check ml-4">
                                                 <input type="radio" class="form-check-input" id="radio2"
                                                     name="userType" value="Member" checked>
                                                 <label class="form-check-label" for="radio1">Member - 2000</label>
                                             </div>
-                                            <div class="form-check">
+                                            <div class="form-check ml-4">
                                                 <input type="radio" class="form-check-input" id="radio3"
                                                     name="userType" value="Non-member" checked>
                                                 <label class="form-check-label" for="radio1">Non-member -

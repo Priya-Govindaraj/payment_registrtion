@@ -5,12 +5,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Razorpay\Api\Api;
 use App\Models\Registration;
+use App\Models\State;
+use App\Models\City;
 
 class RegistrationController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('registration_form');
+        $states = State::all();
+        $cities = City::all();
+        return view('registration_form',compact('states','cities'));
     }
 
     public function register(Request $request)
@@ -18,7 +22,7 @@ class RegistrationController extends Controller
         // Validate the form data
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique',
             'mciNo' => 'required',
             'address' => 'required',
             'city' => 'required',
@@ -63,7 +67,7 @@ class RegistrationController extends Controller
         $registration->payment_id = $paymentId;
         $registration->otp = $otp;
          $registration->save();
-        // dd($registration);
+
 
          return redirect()->back()->with('success', 'Registration Successful');
     }

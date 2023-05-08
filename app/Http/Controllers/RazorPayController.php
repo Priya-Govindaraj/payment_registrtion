@@ -7,6 +7,8 @@ use Razorpay\Api\Api;
 use Illuminate\Support\Facades\Session;
 use Exception;
 use App\Models\Payment;
+use App\Models\State;
+use App\Models\City;
 
 class RazorpayController extends Controller
 {
@@ -17,7 +19,10 @@ class RazorpayController extends Controller
      */
     public function index()
     {
-        return view('razorpay');
+        $states = State::all();
+        $cities = City::all();
+        // dd($state);
+         return view('razorpay',compact('states','cities'));
     }
 
     /**

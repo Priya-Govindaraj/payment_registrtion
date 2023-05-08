@@ -133,6 +133,7 @@
 
                                 "name": "Registration Fee",
                                 "description": "Registration Fee for " + name,
+                                "amount":amount *100,
                                 "image": "https://yourdomain.com/logo.png",
                                 "handler": function(response) {
                                     var paymentId = response.razorpay_payment_id;

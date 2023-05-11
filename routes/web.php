@@ -21,6 +21,13 @@ Route::get('/', function () {
 Route::get('razorpay-payment', [RazorpayController::class, 'index']);
 Route::post('razorpay-payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
 
-Route::get('/registration_form', [RegistrationController::class, 'showRegistrationForm']);
+Route::get('/register', [RegistrationController::class, 'showRegistrationForm']);
 Route::post('/register', [RegistrationController::class, 'register']);
 
+use App\Http\Controllers\PaymentController;
+
+// Define the route for the payment function
+Route::post('/payment', [RegistrationController::class, 'payment'])->name('payment');
+
+// Define the route for the success function
+Route::get('/success', [RegistrationController::class, 'success'])->name('success');

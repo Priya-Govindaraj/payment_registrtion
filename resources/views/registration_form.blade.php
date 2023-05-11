@@ -38,20 +38,29 @@
 
                         <div class="card card-default">
                             <div class="card-header">
-
                                 Registration Form
                             </div>
                             <div class="card-body text-center">
                                 <form id="registrationForm"action="/register" method="POST">
-                                    <div class="form-outline  text-justify">
-                                        <label for="name" class="form-label">Title:</label>
-                                        {{-- <input type="text" id="name" name="title" class="form-control"
+                                    @csrf
+                                    <div class="form-row">
+                                        <div class="form-outline  text-justify">
+                                            <label for="name" class="form-label">Title:</label>
+                                            {{-- <input type="text" id="name" name="title" class="form-control"
                                             required> --}}
-                                            <select class="form-outline  text-justify">>
+                                            <select class="form-outline  text-justify"required>>
                                                 <option>Dr.</option>
                                                 <option>Mr.</option>
                                                 <option>Mrs.</option>
                                                 <option>Ms.</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-outline  text-justify">
+                                        <label for="name" class="form-label">Initial:</label>
+                                        <input type="text" id="name" name="initial" class="form-control"
+                                            required>
                                     </div>
                                     <div class="form-outline  text-justify">
                                         <label for="name" class="form-label">Name:</label>
@@ -70,18 +79,32 @@
                                     </div>
                                     <div class="form-outline  text-justify">
                                         <label for="address"class="form-label">Address:</label>
-                                        <input type="text" id="address" name="address"class="form-control"
-                                            required>
+                                        <textarea type="text" id="address" name="address"class="form-control" required></textarea>
                                     </div>
-                                    <div class="form-outline  text-justify">
-                                        <label for="city" class="form-label">City:</label>
+                                    {{-- <div class="form-outline  text-justify">
+                                        <label for="city" class="form-label">City/District:</label>
                                         <input type="text" id="city" name="city" class="form-control"
                                             required>
+                                    </div> --}}
+                                    <div class="form-outline  text-justify mt-4">
+                                        <label class="form-label" for="state">State</label>
+                                        <select class="select p-2">
+                                            <option>Select State</option>
+                                            @foreach ($states as $state)
+                                                <option value={{ $state->id }}>{{ $state->state_name }}</option>
+                                            @endforeach
+                                        </select>
+
                                     </div>
-                                    <div class="form-outline  text-justify">
-                                        <label for="district" class="form-label">District:</label>
-                                        <input type="text" id="district" name="district"class="form-control"
-                                            required>
+                                    <div class="form-outline  text-justify mt-4 ">
+                                        <label class="form-label" for="address">City/District</label>
+                                        <select class="select p-2">
+                                            <option>Select City</option>
+                                            @foreach ($cities as $city)
+                                                <option value={{ $city->id }}>{{ $city->name }}</option>
+                                            @endforeach
+                                        </select>
+
                                     </div>
                                     <div class="form-outline  text-justify">
                                         <label for="pincode" class="form-label">Pincode:</label>
@@ -109,7 +132,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="offset-sm-3 col-sm-9">
+                                    <div class="offset-sm-3 col-sm-5 mt-2">
                                         <button type="submit" class="btn btn-primary">Register</button>
                                     </div>
                                 </form>
@@ -131,11 +154,11 @@
                             var userType = $("input[name='userType']:checked").val();
                             var amount = 0;
                             if (userType == "student") {
-                                amount = 1000;
+                                amount = 10;
                             } else if (userType == "Member") {
-                                amount = 2000;
+                                amount = 2;
                             } else {
-                                amount = 3000;
+                                amount = 3;
                             }
                             var options = {
 
@@ -143,7 +166,7 @@
 
                                 "name": "Registration Fee",
                                 "description": "Registration Fee for " + name,
-                                "amount":amount *100,
+                                "amount": amount * 100,
                                 "image": "https://yourdomain.com/logo.png",
                                 "handler": function(response) {
                                     var paymentId = response.razorpay_payment_id;
@@ -166,7 +189,31 @@
                                         contentType: false,
                                         success: function(response) {
                                             if (response == "success") {
+                                                // Store data in database
+                                                $.ajax({
+                                                    url: "store_data.php",
+                                                    method: "POST",
+                                                    data: formData,
+                                                    processData: false,
+                                                    contentType: false,
+                                                    success: function(response) {
+                                                        console.log(response);
+                                                    }
+                                                });
+
+                                                // Send thank you email to user
+                                                $.ajax({
+                                                    url: "send_email.php",
+                                                    method: "POST",
+                                                    data: formData,
+                                                    processData: false,
+                                                    contentType: false,
+                                                    success: function(response) {
+                                                        console.log(response);
+                                                    }
+                                                });
                                                 alert("Registration successful");
+
                                             } else {
                                                 alert("Registration failed");
                                             }
